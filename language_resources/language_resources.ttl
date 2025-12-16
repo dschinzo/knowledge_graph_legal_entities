@@ -1,0 +1,102 @@
+@prefix kg: <http://example.org/mongolia-kg/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+##########
+# Classes
+##########
+
+kg:LegalEntity a rdfs:Class ;
+    rdfs:label "Legal Entity" .
+
+kg:Person a rdfs:Class ;
+    rdfs:label "Person" .
+
+kg:Organization a rdfs:Class ;
+    rdfs:label "Organization" .
+
+kg:BusinessActivity a rdfs:Class ;
+    rdfs:label "Business Activity" .
+
+kg:RestructuringEvent a rdfs:Class ;
+    rdfs:label "Restructuring Event" .
+
+kg:AuthorizedRepresentation a rdfs:Class ;
+    rdfs:label "Authorized Representation" .
+
+kg:BeneficialOwnership a rdfs:Class ;
+    rdfs:label "Ultimate Beneficial Ownership" .
+
+##########
+# Object Properties
+##########
+
+kg:hasShareholder a rdf:Property ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range kg:Person .
+
+kg:hasAuthorizedRepresentative a rdf:Property ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range kg:AuthorizedRepresentation .
+
+kg:representsEntity a rdf:Property ;
+    rdfs:domain kg:AuthorizedRepresentation ;
+    rdfs:range kg:LegalEntity .
+
+kg:representedBy a rdf:Property ;
+    rdfs:domain kg:AuthorizedRepresentation ;
+    rdfs:range kg:Person .
+
+kg:hasUltimateBeneficialOwner a rdf:Property ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range kg:BeneficialOwnership .
+
+kg:uboPerson a rdf:Property ;
+    rdfs:domain kg:BeneficialOwnership ;
+    rdfs:range kg:Person .
+
+kg:hasBusinessActivity a rdf:Property ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range kg:BusinessActivity .
+
+kg:hasRestructuringEvent a rdf:Property ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range kg:RestructuringEvent .
+
+##########
+# Data Properties
+##########
+
+kg:registrationNumber a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:registeredName a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:registrationDate a rdf:Property ;
+    rdfs:range xsd:date .
+
+kg:country a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:position a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:classification a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:activityName a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:activityStatus a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:restructuringType a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:previousName a rdf:Property ;
+    rdfs:range xsd:string .
+
+kg:eventDate a rdf:Property ;
+    rdfs:range xsd:date .
