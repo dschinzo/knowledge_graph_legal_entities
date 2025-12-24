@@ -1,0 +1,147 @@
+@prefix kg: <http://example.com/mn-legal-kg/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/> .
+
+kg:Ontology rdf:type owl:Ontology ;
+    owl:imports <http://schema.org/> .
+
+# Classes
+kg:LegalEntity rdf:type owl:Class ;
+    rdfs:subClassOf schema:Organization ;
+    rdfs:label "Legal Entity" ;
+    rdfs:comment "Represents a Mongolian registered legal entity (company, NGO, partnership, etc.)." .
+
+kg:NaturalPerson rdf:type owl:Class ;
+    rdfs:subClassOf schema:Person ;
+    rdfs:label "Natural Person" ;
+    rdfs:comment "Represents a human individual (shareholder, official, or beneficial owner)." .
+
+kg:CorporateShareholder rdf:type owl:Class ;
+    rdfs:subClassOf kg:LegalEntity ;
+    rdfs:label "Corporate Shareholder" ;
+    rdfs:comment "A legal entity acting as a shareholder in another legal entity." .
+
+kg:BusinessActivity rdf:type owl:Class ;
+    rdfs:label "Business Activity" ;
+    rdfs:comment "Represents a registered business activity of a legal entity." .
+
+kg:RestructuringEvent rdf:type owl:Class ;
+    rdfs:label "Restructuring Event" ;
+    rdfs:comment "Represents a corporate restructuring event." .
+
+# Object Properties
+kg:hasShareholder rdf:type owl:ObjectProperty ;
+    rdfs:subPropertyOf schema:member ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range [ rdf:type owl:Class ;
+                 owl:unionOf (kg:NaturalPerson kg:LegalEntity) ] ;
+    rdfs:label "has shareholder" ;
+    rdfs:comment "Links a legal entity to its shareholders (individuals or other legal entities)." .
+
+kg:hasAuthorizedRepresentative rdf:type owl:ObjectProperty ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range kg:NaturalPerson ;
+    rdfs:label "has authorized representative" ;
+    rdfs:comment "Links a legal entity to individuals authorized to represent it." .
+
+kg:hasBeneficialOwner rdf:type owl:ObjectProperty ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range [ rdf:type owl:Class ;
+                 owl:unionOf (kg:NaturalPerson kg:LegalEntity) ] ;
+    rdfs:label "has beneficial owner" ;
+    rdfs:comment "Links a legal entity to its ultimate beneficial owners (individuals or entities)." .
+
+kg:hasActivity rdf:type owl:ObjectProperty ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range kg:BusinessActivity ;
+    rdfs:label "has business activity" .
+
+kg:hasRestructuring rdf:type owl:ObjectProperty ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range kg:RestructuringEvent ;
+    rdfs:label "has restructuring event" .
+
+# Data Properties (reusing schema.org where possible)
+kg:name rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:name ;
+    rdfs:domain [ rdf:type owl:Class ;
+                  owl:unionOf (kg:LegalEntity kg:NaturalPerson kg:BusinessActivity kg:RestructuringEvent) ] ;
+    rdfs:range xsd:string .
+
+kg:legalName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:legalName ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range xsd:string .
+
+kg:registrationNumber rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:taxID ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range xsd:string .
+
+kg:registrationDate rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:foundingDate ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range xsd:date .
+
+kg:legalForm rdf:type owl:DatatypeProperty ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range xsd:string ;
+    rdfs:label "legal form" .
+
+kg:registeredAddress rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:address ;
+    rdfs:domain kg:LegalEntity ;
+    rdfs:range xsd:string .
+
+kg:classification rdf:type owl:DatatypeProperty ;
+    rdfs:domain [ rdf:type owl:Class ;
+                  owl:unionOf (kg:NaturalPerson kg:LegalEntity) ] ;
+    rdfs:range xsd:string ;
+    rdfs:label "classification" ;
+    rdfs:comment "e.g., Иргэн or Х/Этгээд" .
+
+# NaturalPerson-specific properties
+kg:patronymic rdf:type owl:DatatypeProperty ;
+    rdfs:domain kg:NaturalPerson ;
+    rdfs:range xsd:string .
+
+kg:firstName rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:givenName ;
+    rdfs:domain kg:NaturalPerson ;
+    rdfs:range xsd:string .
+
+kg:gender rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:gender ;
+    rdfs:domain kg:NaturalPerson ;
+    rdfs:range xsd:string .
+
+kg:country rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:nationality ;
+    rdfs:domain kg:NaturalPerson ;
+    rdfs:range xsd:string .
+
+kg:positionTitle rdf:type owl:DatatypeProperty ;
+    rdfs:domain kg:NaturalPerson ;
+    rdfs:range xsd:string ;
+    rdfs:label "position title" .
+
+# BusinessActivity and RestructuringEvent
+kg:description rdf:type owl:DatatypeProperty ;
+    rdfs:domain kg:BusinessActivity ;
+    rdfs:range xsd:string .
+
+kg:status rdf:type owl:DatatypeProperty ;
+    rdfs:domain kg:BusinessActivity ;
+    rdfs:range xsd:string .
+
+kg:previousName rdf:type owl:DatatypeProperty ;
+    rdfs:domain kg:RestructuringEvent ;
+    rdfs:range xsd:string .
+
+kg:eventDate rdf:type owl:DatatypeProperty ;
+    rdfs:subPropertyOf schema:startDate ;
+    rdfs:domain kg:RestructuringEvent ;
+    rdfs:range xsd:date .
