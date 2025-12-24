@@ -1,0 +1,67 @@
+@prefix kg:   <http://example.org/mongolia-kg/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+##########
+# Legal Entity
+##########
+
+kg:LE_1234567 a kg:LegalEntity ;
+    kg:registrationNumber "1234567" ;
+    kg:registeredName "Example LLC" ;
+    kg:registrationDate "2015-06-12"^^xsd:date ;
+    kg:country "Mongolia" .
+
+##########
+# Person
+##########
+
+kg:Person_001 a kg:Person ;
+    rdfs:label "Bat Erdene" ;
+    kg:country "Mongolia" .
+
+##########
+# Authorized Representative (Reified)
+##########
+
+kg:AuthRep_001 a kg:AuthorizedRepresentation ;
+    kg:representedBy kg:Person_001 ;
+    kg:representsEntity kg:LE_1234567 ;
+    kg:position "Director" ;
+    kg:registrationDate "2020-03-01"^^xsd:date .
+
+kg:LE_1234567 kg:hasAuthorizedRepresentative kg:AuthRep_001 .
+
+##########
+# Ultimate Beneficial Ownership
+##########
+
+kg:UBO_001 a kg:BeneficialOwnership ;
+    kg:uboPerson kg:Person_001 ;
+    kg:classification "Direct Owner" ;
+    kg:registrationDate "2018-01-15"^^xsd:date .
+
+kg:LE_1234567 kg:hasUltimateBeneficialOwner kg:UBO_001 .
+
+##########
+# Business Activity
+##########
+
+kg:BA_001 a kg:BusinessActivity ;
+    kg:activityName "Wholesale Trade" ;
+    kg:activityStatus "Active" ;
+    kg:registrationDate "2015-06-12"^^xsd:date .
+
+kg:LE_1234567 kg:hasBusinessActivity kg:BA_001 .
+
+##########
+# Restructuring Event
+##########
+
+kg:RE_001 a kg:RestructuringEvent ;
+    kg:restructuringType "Transformation" ;
+    kg:previousName "Old Example LLC" ;
+    kg:eventDate "2019-11-20"^^xsd:date .
+
+kg:LE_1234567 kg:hasRestructuringEvent kg:RE_001 .
